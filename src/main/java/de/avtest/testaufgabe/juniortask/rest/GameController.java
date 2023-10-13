@@ -198,12 +198,12 @@ public class GameController {
     // Once all the checks have passed, you can finally update the game board by calling
     // gameBoard.setSpace( x, y, GameMark.CIRCLE ).
     // [ The code to check if the space is free goes here ]
-    if (gameBoard.getSpace(x,y)== GameMark.NONE){
+    if (gameBoard.getSpace(x,y)== GameMark.NONE){   // reicht diese Abfrage nicht schon, da wir nicht überprüfen müssen was dort für eine Makierung ist sondern nur ob dort eine ist
       gameBoard.setSpace(x,y, GameMark.CIRCLE);
     }
     // If the space is not free, run the code in the line below by removing the //
-    //return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This space has already been claimed!");
     else {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This space has already been claimed!");
     }
     // [ The code to update the game board goes here ]
 
