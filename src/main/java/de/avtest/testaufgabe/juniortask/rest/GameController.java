@@ -65,6 +65,7 @@ public class GameController {
     // shorten this function without compromising its functionality. Note that by "shorten", we don't mean to just
     // remove spaces and line breaks ;)
     // =============================================================================================================
+    /*
     if ( // Check the first row
       gameBoard.getRow(0).getSpace(0) == gameBoard.getRow(0).getSpace(1) &&
         gameBoard.getRow(0).getSpace(0) == gameBoard.getRow(0).getSpace(2) &&
@@ -83,6 +84,21 @@ public class GameController {
         gameBoard.getRow(2).getSpace(0) != GameMark.NONE
     ) return true;
 
+     */
+    
+    int a=0;
+    while(a<3){                                                                                   //ersatz row
+      if( gameBoard.getRow(a).getSpace(0) == gameBoard.getRow(a).getSpace(1) &&
+              gameBoard.getRow(a).getSpace(0) == gameBoard.getRow(a).getSpace(2) &&
+              gameBoard.getRow(a).getSpace(0) != GameMark.NONE){
+        return true;
+      }
+      a++;
+    }
+    a=0;
+
+     */
+    /*
     if ( // Check the first column
       gameBoard.getColumn(0).getSpace(0) == gameBoard.getColumn(0).getSpace(1) &&
         gameBoard.getColumn(0).getSpace(0) == gameBoard.getColumn(0).getSpace(2) &&
@@ -100,6 +116,18 @@ public class GameController {
         gameBoard.getColumn(2).getSpace(0) == gameBoard.getColumn(2).getSpace(2) &&
         gameBoard.getColumn(2).getSpace(0) != GameMark.NONE
     ) return true;
+
+     */
+
+    while(a<3){                                                                                   //ersatz column
+      if(gameBoard.getColumn(a).getSpace(0) == gameBoard.getColumn(a).getSpace(1) &&
+              gameBoard.getColumn(a).getSpace(0) == gameBoard.getColumn(a).getSpace(2) &&
+              gameBoard.getColumn(a).getSpace(0) != GameMark.NONE){
+        return true;
+      }
+      a++;
+    }
+    a=0;
 
     if ( // Check the main diagonal
       gameBoard.getMainDiagonal().getSpace(0) == gameBoard.getMainDiagonal().getSpace(1) &&
