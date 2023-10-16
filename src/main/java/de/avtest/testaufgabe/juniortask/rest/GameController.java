@@ -150,8 +150,13 @@ public class GameController {
     // GamePlayer.HUMAN (the last move was made by the player) or null (this is the first move).
     // Inside `player` you have the player which wants to play now.
     // If he is allowed to play, you have to return true, otherwise you have to return false.
-
-    return true;
+    if(gameBoard.getLastPlayer()==null){
+      return true;
+    }
+    if(player!=gameBoard.getLastPlayer()){
+      return true;
+    }
+    else return false;
   }
 
   /**
