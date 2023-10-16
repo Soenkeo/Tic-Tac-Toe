@@ -129,7 +129,16 @@ public class GameController {
     // If someone has won, it needs to return either GamePlayer::Human or GamePlayer::Robot.
     // =============================================================================================================
 
-    return null;
+    if (this.someoneHasWon(gameBoard)){
+      if(gameBoard.getLastPlayer()==GamePlayer.ROBOT){
+        return GamePlayer.ROBOT;
+      }
+      if(gameBoard.getLastPlayer()==GamePlayer.HUMAN){
+        return GamePlayer.HUMAN;
+      }
+      else return null;
+    }
+    else return null;
   }
 
   /**
