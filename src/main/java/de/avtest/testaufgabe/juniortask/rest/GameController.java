@@ -90,6 +90,7 @@ public class GameController {
     while(a<3){                                                                                   //ersatz row
       if( gameBoard.getRow(a).getSpace(0) == gameBoard.getRow(a).getSpace(1) &&
               gameBoard.getRow(a).getSpace(0) == gameBoard.getRow(a).getSpace(2) &&
+              gameBoard.getRow(a).getSpace(0) == gameBoard.getRow(a).getSpace(3) &&         //veränderung für Task 9
               gameBoard.getRow(a).getSpace(0) != GameMark.NONE){
         return true;
       }
@@ -121,6 +122,7 @@ public class GameController {
     while(a<3){                                                                                   //ersatz column
       if(gameBoard.getColumn(a).getSpace(0) == gameBoard.getColumn(a).getSpace(1) &&
               gameBoard.getColumn(a).getSpace(0) == gameBoard.getColumn(a).getSpace(2) &&
+              gameBoard.getColumn(a).getSpace(0) == gameBoard.getColumn(a).getSpace(3) &&   //veränderung für Task 9
               gameBoard.getColumn(a).getSpace(0) != GameMark.NONE){
         return true;
       }
@@ -131,12 +133,14 @@ public class GameController {
     if ( // Check the main diagonal
       gameBoard.getMainDiagonal().getSpace(0) == gameBoard.getMainDiagonal().getSpace(1) &&
         gameBoard.getMainDiagonal().getSpace(0) == gameBoard.getMainDiagonal().getSpace(2) &&
-        gameBoard.getMainDiagonal().getSpace(0) != GameMark.NONE
+              gameBoard.getMainDiagonal().getSpace(0) == gameBoard.getMainDiagonal().getSpace(3) && //veränderung für Task 9
+              gameBoard.getMainDiagonal().getSpace(0) != GameMark.NONE
     ) return true;
 
     if ( // Check the anti-diagonal
       gameBoard.getAntiDiagonal().getSpace(0) == gameBoard.getAntiDiagonal().getSpace(1) &&
         gameBoard.getAntiDiagonal().getSpace(0) == gameBoard.getAntiDiagonal().getSpace(2) &&
+              gameBoard.getAntiDiagonal().getSpace(0) == gameBoard.getAntiDiagonal().getSpace(3) && //veränderung für Task 9
         gameBoard.getAntiDiagonal().getSpace(0) != GameMark.NONE
     ) return true;
 
