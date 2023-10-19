@@ -85,7 +85,7 @@ public class GameController {
     ) return true;
 
      */
-    
+
     int a=0;
     while(a<3){                                                                                   //ersatz row
       if( gameBoard.getRow(a).getSpace(0) == gameBoard.getRow(a).getSpace(1) &&
@@ -97,7 +97,6 @@ public class GameController {
     }
     a=0;
 
-     */
     /*
     if ( // Check the first column
       gameBoard.getColumn(0).getSpace(0) == gameBoard.getColumn(0).getSpace(1) &&
