@@ -18,34 +18,7 @@ import java.util.*;
 @RestController
 @RequestMapping("api/game")
 public class GameController {
-  public void gameboardSpeichern(GameBoard gameBoard){   //Methode zum Speichern -> Idee: es muss immer nur gespeichert werden wenn eine markierung gesetzt wurde
-    File file = new File("C:\\Users\\User\\Desktop\\Uni\\Praktikum AV-Test\\gameboard.ser");
-    try(FileOutputStream outputStream = new FileOutputStream(file);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);) {
-        objectOutputStream.writeObject(gameBoard);
-
-    } catch (FileNotFoundException e) {
-        throw new RuntimeException(e);
-    } catch (IOException e) {
-        throw new RuntimeException(e);
-    }
-  }
-  public GameBoard gameboardLaden(){       //Methode zum Laden
-    GameBoard gameBoard = null;
-    File file = new File("C:\\Users\\User\\Desktop\\Uni\\Praktikum AV-Test\\gameboard.ser");
-    try(FileInputStream inputStream = new FileInputStream(file);
-          ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);) {
-        gameBoard = (GameBoard) objectInputStream.readObject();
-    } catch (FileNotFoundException e) {
-        throw new RuntimeException(e);
-    } catch (IOException e) {
-        throw new RuntimeException(e);
-    } catch (ClassNotFoundException e) {
-        throw new RuntimeException(e);
-    }
-    return gameBoard;
-  }
-
+  SerialisierungsDAO dao = new SerialisierungsDAO();
   private final Map<String, GameBoard> storedGames = new LinkedHashMap<>();
   private final Random random = new Random();
   @Autowired private CopyrightController copyrightController;
@@ -238,7 +211,7 @@ public class GameController {
   public ResponseEntity<String> play(@RequestParam String gameId, @RequestParam int x, @RequestParam int y) {
     // Loading the game board
     var gameBoard = storedGames.get(gameId);
-
+    gameBoard= dao.gameboardLaden();// Spiel Laden
     // Check if the given position is actually valid; can't have the player draw a cross on the table next to the
     // game board ;)
     if (x < 0 || y < 0 || x >= gameBoard.getSize() || y >= gameBoard.getSize()) {
@@ -273,7 +246,7 @@ public class GameController {
     // [ The code to check if the space is free goes here ]
     if (gameBoard.getSpace(x,y)== GameMark.NONE){   // reicht diese Abfrage nicht schon, da wir nicht überprüfen müssen was dort für eine Makierung ist sondern nur ob dort eine ist
       gameBoard.setSpace(x,y, GameMark.CIRCLE);
-                           //Task 10 hier müsste gespeichert werden
+      dao.gameboardSpeichern(gameBoard);                     //Task 10 hier müsste gespeichert werden
     }
     // If the space is not free, run the code in the line below by removing the //
     else {
@@ -290,7 +263,7 @@ public class GameController {
   public ResponseEntity<String> playBot(@RequestParam String gameId) {
     // Loading the game board
     var gameBoard = storedGames.get(gameId);
-
+    gameBoard= dao.gameboardLaden();// Spiel Laden
     // ##### TASK 5 - Understand the bot ###########################################################################
     // =============================================================================================================
     // This first step to beat your enemy is to thoroughly understand them.
@@ -327,7 +300,7 @@ public class GameController {
     var randomFreeSpace = freeSpaces.stream().skip(random.nextInt(freeSpaces.size())).findFirst().orElseGet(() -> freeSpaces.get(0));
 
     gameBoard.setSpace(randomFreeSpace.get("x"), randomFreeSpace.get("y"), GameMark.CROSS);
-    //hier müsste gespeichert werden
+    dao.gameboardSpeichern(gameBoard); //hier müsste gespeichert werden
     return this.statusOutput(gameBoard);
   }
 
@@ -335,6 +308,7 @@ public class GameController {
   public ResponseEntity<String> display(@RequestParam String gameId) {
     // Loading the game board
     var gameBoard = storedGames.get(gameId);
+    gameBoard= dao.gameboardLaden();// Spiel Laden
     return this.statusOutput(gameBoard);
   }
 
@@ -343,6 +317,8 @@ public class GameController {
     // Loading the game board
     var uuid = UUID.randomUUID().toString();
     storedGames.put(uuid, new GameBoard());
+    dao.gameboardSpeichern(storedGames.get(uuid)); //Spiel Überschreiben
     return ResponseEntity.ok(uuid);
   }
+
 }
