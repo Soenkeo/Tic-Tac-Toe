@@ -12,11 +12,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
 import java.util.*;
 
 @RestController
 @RequestMapping("api/game")
 public class GameController {
+  public void gameboardSpeichern(GameBoard gameBoard){   //Methode zum Speichern -> Idee: es muss immer nur gespeichert werden wenn eine markierung gesetzt wurde
+    File file = new File("C:\\Users\\User\\Desktop\\Uni\\Praktikum AV-Test\\gameboard.ser");
+    try(FileOutputStream outputStream = new FileOutputStream(file);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);) {
+        objectOutputStream.writeObject(gameBoard);
+
+    } catch (FileNotFoundException e) {
+        throw new RuntimeException(e);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+  }
+  public GameBoard gameboardLaden(){       //Methode zum Laden
+    GameBoard gameBoard = null;
+    File file = new File("C:\\Users\\User\\Desktop\\Uni\\Praktikum AV-Test\\gameboard.ser");
+    try(FileInputStream inputStream = new FileInputStream(file);
+          ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);) {
+        gameBoard = (GameBoard) objectInputStream.readObject();
+    } catch (FileNotFoundException e) {
+        throw new RuntimeException(e);
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    } catch (ClassNotFoundException e) {
+        throw new RuntimeException(e);
+    }
+    return gameBoard;
+  }
 
   private final Map<String, GameBoard> storedGames = new LinkedHashMap<>();
   private final Random random = new Random();
@@ -245,6 +273,7 @@ public class GameController {
     // [ The code to check if the space is free goes here ]
     if (gameBoard.getSpace(x,y)== GameMark.NONE){   // reicht diese Abfrage nicht schon, da wir nicht überprüfen müssen was dort für eine Makierung ist sondern nur ob dort eine ist
       gameBoard.setSpace(x,y, GameMark.CIRCLE);
+                           //Task 10 hier müsste gespeichert werden
     }
     // If the space is not free, run the code in the line below by removing the //
     else {
@@ -298,7 +327,7 @@ public class GameController {
     var randomFreeSpace = freeSpaces.stream().skip(random.nextInt(freeSpaces.size())).findFirst().orElseGet(() -> freeSpaces.get(0));
 
     gameBoard.setSpace(randomFreeSpace.get("x"), randomFreeSpace.get("y"), GameMark.CROSS);
-
+    //hier müsste gespeichert werden
     return this.statusOutput(gameBoard);
   }
 

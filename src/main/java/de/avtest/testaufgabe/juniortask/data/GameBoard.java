@@ -4,11 +4,12 @@ import de.avtest.testaufgabe.juniortask.data.enums.GameBoardSliceType;
 import de.avtest.testaufgabe.juniortask.data.enums.GameMark;
 import de.avtest.testaufgabe.juniortask.data.enums.GamePlayer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class GameBoard {
+public class GameBoard implements Serializable {
 
   // Board size
   private final int size = 4; // hier Änderung Task 9
