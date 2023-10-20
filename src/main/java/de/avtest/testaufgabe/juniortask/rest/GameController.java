@@ -18,7 +18,8 @@ import java.util.*;
 @RestController
 @RequestMapping("api/game")
 public class GameController {
-  SerialisierungsDAO dao = new SerialisierungsDAO();
+  SerialisierungsDAO dao = new SerialisierungsDAO();   // Speicher standt
+
   private final Map<String, GameBoard> storedGames = new LinkedHashMap<>();
   private final Random random = new Random();
   @Autowired private CopyrightController copyrightController;
